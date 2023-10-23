@@ -190,28 +190,261 @@ function Skills() {
 
 
 function Education() {
-  const [school, setSchool] = useState('Enter School')
-  const [degree, setDegree] = useState('Enter Degree')
-  const [graduation, setGraduation] = useState('Enter Graduation Date')
+	const initialData = [
+		{
+			school: "Enter School",
+			degree: "Enter Degree",
+			graduation: "Enter Graduation Date",
+			description:
+				"Enter a brief description of what you studied and your accomplishments",
+		},
+	];
+	const [educationData, setEducationData] = useState(initialData);
+	const [isEditing, setIsEditing] = useState(false);
 
-  return(
-  <>
-  </>
-  )
+	const handleEditClick = () => {
+		setIsEditing(true);
+	};
+
+	const handleSaveClick = () => {
+		setIsEditing(false);
+	};
+
+	const handleDeleteClick = (index) => {
+		if (educationData.length > 1) {
+			const updatedData = [...educationData];
+			updatedData.splice(index, 1);
+			setEducationData(updatedData);
+		}
+	};
+
+	const handleAddClick = () => {
+		setEducationData([...educationData, initialData[0]]);
+	};
+
+	return (
+		<div>
+			{isEditing ? (
+				<div>
+					{educationData.map((item, index) => (
+						<div key={index}>
+							<input
+								type="text"
+								value={item.school}
+								onChange={(e) => {
+									const updatedData = [...educationData];
+									updatedData[index].school = e.target.value;
+									setEducationData(updatedData);
+								}}
+							/>
+							<input
+								type="text"
+								value={item.degree}
+								onChange={(e) => {
+									const updatedData = [...educationData];
+									updatedData[index].degree = e.target.value;
+									setEducationData(updatedData);
+								}}
+							/>
+							<input
+								type="text"
+								value={item.graduation}
+								onChange={(e) => {
+									const updatedData = [...educationData];
+									updatedData[index].graduation =
+										e.target.value;
+									setEducationData(updatedData);
+								}}
+							/>
+							<input
+								type="text"
+								value={item.description}
+								onChange={(e) => {
+									const updatedData = [...educationData];
+									updatedData[index].description =
+										e.target.value;
+									setEducationData(updatedData);
+								}}
+							/>
+						</div>
+					))}
+					<button className="save-btn" onClick={handleSaveClick}>
+						Save
+					</button>
+				</div>
+			) : (
+				<div>
+					<h2>Education</h2>
+					{educationData.map((item, index) => (
+						<div key={index}>
+							<p>{item.school}</p>
+							<p>{item.degree}</p>
+							<p>{item.graduation}</p>
+							<p>{item.description}</p>
+							<button
+								className="edit-btn"
+								onClick={handleEditClick}
+							>
+								Edit
+							</button>
+							{educationData.length > 1 ? (
+								<button
+									className="delete-btn"
+									onClick={() => handleDeleteClick(index)}
+								>
+									Delete
+								</button>
+							) : (
+								<button className="delete-btn" disabled>
+									Delete
+								</button>
+							)}
+							<button
+								className="add-btn"
+								onClick={handleAddClick}
+							>
+								Add
+							</button>
+						</div>
+					))}
+				</div>
+			)}
+		</div>
+	);
 }
-
 function Experience() {
-  const [company, setCompany] = useState('Enter Company')
-  const [position, setPosition] = useState('Enter Position')
-  const [startDate, setStartDate] = useState('Enter Start Date')
-  const [endDate, setEndDate] = useState('Enter End Date')
-  const [description, setDescription] = useState('Enter Description')
+	const initialData = [
+		{
+			company: "Enter Company",
+			position: "Enter Position",
+			startDate: "Enter Start Date",
+			endDate: "Enter End Date",
+			description: "Enter Description",
+		},
+	];
+	const [experienceData, setExperienceData] = useState(initialData);
+	const [isEditing, setIsEditing] = useState(false);
 
-  return(
-  <>
-  </>
-  )
+	const handleEditClick = () => {
+		setIsEditing(true);
+	};
+
+	const handleSaveClick = () => {
+		setIsEditing(false);
+	};
+
+	const handleDeleteClick = (index) => {
+		if (experienceData.length > 1) {
+			const updatedData = [...experienceData];
+			updatedData.splice(index, 1);
+			setExperienceData(updatedData);
+		}
+	};
+
+	const handleAddClick = () => {
+		setExperienceData([...experienceData, initialData[0]]);
+	};
+
+	return (
+		<div>
+			{isEditing ? (
+				<div>
+					{experienceData.map((item, index) => (
+						<div key={index}>
+							<input
+								type="text"
+								value={item.company}
+								onChange={(e) => {
+									const updatedData = [...experienceData];
+									updatedData[index].company = e.target.value;
+									setExperienceData(updatedData);
+								}}
+							/>
+							<input
+								type="text"
+								value={item.position}
+								onChange={(e) => {
+									const updatedData = [...experienceData];
+									updatedData[index].position =
+										e.target.value;
+									setExperienceData(updatedData);
+								}}
+							/>
+							<input
+								type="text"
+								value={item.startDate}
+								onChange={(e) => {
+									const updatedData = [...experienceData];
+									updatedData[index].startDate =
+										e.target.value;
+									setExperienceData(updatedData);
+								}}
+							/>
+							<input
+								type="text"
+								value={item.endDate}
+								onChange={(e) => {
+									const updatedData = [...experienceData];
+									updatedData[index].endDate = e.target.value;
+									setExperienceData(updatedData);
+								}}
+							/>
+							<input
+								type="text"
+								value={item.description}
+								onChange={(e) => {
+									const updatedData = [...experienceData];
+									updatedData[index].description =
+										e.target.value;
+									setExperienceData(updatedData);
+								}}
+							/>
+						</div>
+					))}
+					<button className="save-btn" onClick={handleSaveClick}>
+						Save
+					</button>
+				</div>
+			) : (
+				<div>
+					<h2>Experience</h2>
+					{experienceData.map((item, index) => (
+						<div key={index}>
+							<p>{item.company}</p>
+							<p>{item.position}</p>
+							<p>{item.startDate}</p>
+							<p>{item.endDate}</p>
+							<p>{item.description}</p>
+							<button
+								className="edit-btn"
+								onClick={handleEditClick}
+							>
+								Edit
+							</button>
+							{experienceData.length > 1 ? (
+								<button
+									className="delete-btn"
+									onClick={() => handleDeleteClick(index)}
+								>
+									Delete
+								</button>
+							) : (
+								<button className="delete-btn" disabled>
+									Delete
+								</button>
+							)}
+							<button
+								className="add-btn"
+								onClick={handleAddClick}
+							>
+								Add
+							</button>
+						</div>
+					))}
+				</div>
+			)}
+		</div>
+	);
 }
-
 
 export { GeneralInfo, Summary, Skills, Education, Experience}
