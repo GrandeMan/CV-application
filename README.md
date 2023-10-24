@@ -5,9 +5,8 @@ There are a couple of themes to choose from and when you're finished, hit save t
 </br>
 </br>
 
-## Demo 
-
-https://fee21145.cv-application-bbx.pages.dev/
+### Demo
+ `Live View`: https://cv-application-bbx.pages.dev/
 </br>
 </br>
 
