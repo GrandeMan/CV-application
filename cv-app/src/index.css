@@ -1,8 +1,5 @@
 :root {
   --color-primary: #535bf2;
-  /* --color-alt-green: #00bfa5;
-  --color-alt-red: #ff5252;
-  --color-alt-black: #1a1a1a; */
 
   /* position: absolute; */
   width: 100%;
@@ -11,9 +8,9 @@
   line-height: 1;
   font-weight: 400;
 
-/*   color-scheme: light dark;
+  color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424; */
+  background-color: #242424;
 
   font-synthesis: none;
   text-rendering: optimizeLegibility;
@@ -32,6 +29,8 @@ a:hover {
 }
 
 body {
+  color: black;
+  background-color: white;
   margin: 0;
   display: flex;
   justify-content: center;
