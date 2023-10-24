@@ -112,6 +112,18 @@ textarea {
 
 }
 
+.print {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  margin: 1em 0;
+}
+.print button {
+  color: white;
+  font-weight: 500;
+  background-color: var(--color-primary);
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;

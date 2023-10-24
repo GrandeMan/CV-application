@@ -511,4 +511,12 @@ function Experience() {
 	);
 }
 
-export { Themes, GeneralInfo, Summary, Skills, Education, Experience}
+function Print() {
+  return (
+    <div className="print">
+      <button onClick={() => window.print()}><b>Save</b></button>
+    </div>
+  )
+}
+
+export { Themes, GeneralInfo, Summary, Skills, Education, Experience, Print}
