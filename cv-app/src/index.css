@@ -1,7 +1,10 @@
 :root {
   --color-primary: #535bf2;
+  /* --color-alt-green: #00bfa5;
+  --color-alt-red: #ff5252;
+  --color-alt-black: #1a1a1a; */
 
-  position: absolute;
+  /* position: absolute; */
   width: 100%;
   padding: 0 1rem;
   font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
@@ -43,6 +46,7 @@ h1 {
   font-size: 2.75em;
   line-height: 1.1;
   color: var(--color-primary);
+  margin: .5em 0;
 }
 
 h2 {
@@ -91,6 +95,23 @@ textarea {
   margin: 1rem 0;
 }
 
+
+.theme-buttons {
+  width: 25%;
+  display: flex;
+  justify-content: space-between;
+  gap: 1em;
+  margin-top: 1em;
+}
+
+.theme-button {
+  height: 40px;
+  width: 40px;
+  border-radius: 50%;
+  border: 1px solid transparent;
+
+}
+
 button {
   border-radius: 8px;
   border: 1px solid transparent;
@@ -103,7 +124,7 @@ button {
   transition: border-color 0.25s;
 }
 button:hover {
-  border-color: #646cff;
+  border-color: var(--color-primary);
 }
 button:focus,
 button:focus-visible {
@@ -111,11 +132,10 @@ button:focus-visible {
 }
 
 ul {
-  display: flex;
-  flex-direction: column;
+  display: grid;
+  grid-template-columns: 1fr 1fr 1fr;
+  grid-template-rows: 1fr auto;
   max-height: 200px;
-  justify-content: space-between;
-  flex-flow: column wrap;
   gap: 1em 3em;
   padding: 0;
 }
@@ -136,4 +156,18 @@ li {
   button {
     background-color: #f9f9f9;
   }
+}
+
+@media print {
+  :root {
+    color: #000000;
+    background-color: #ffffff;
+  }
+  a {
+    color: #000000;
+  }
+  button {
+    display: none;
+  }
+
 }

@@ -1,5 +1,43 @@
-import { useState } from 'react'
-import './index.css'
+import { useState, useEffect, useMemo } from "react";
+import "./index.css";
+
+function Themes() {
+	const [theme, setTheme] = useState("primary");
+
+	const themeColors = useMemo(() => {
+		return {
+			primary: "#535bf2",
+			green: "#00bfa5",
+			red: "#ff5252",
+			black: "#1a1a1a",
+		};
+	}, []);
+
+	useEffect(() => {
+		document.documentElement.style.setProperty(
+			"--color-primary",
+			themeColors[theme]
+		);
+	}, [theme, themeColors]);
+
+	const changeTheme = (newTheme) => {
+		setTheme(newTheme);
+	};
+
+	return (
+		<div className="theme-buttons">
+			{Object.keys(themeColors).map((themeName) => (
+				<button
+					key={themeName}
+					className={`theme-button theme-${themeName}`}
+					onClick={() => changeTheme(themeName)}
+					style={{ backgroundColor: themeColors[themeName] }}
+				>
+				</button>
+			))}
+		</div>
+	);
+}
 
 
 function GeneralInfo() {
@@ -261,8 +299,8 @@ function Education() {
 							/>
 							<textarea
 								type="text"
-                rows="4"
-                cols="50"
+								rows="4"
+								cols="50"
 								value={item.description}
 								onChange={(e) => {
 									const updatedData = [...educationData];
@@ -290,7 +328,7 @@ function Education() {
 								<p>{item.completed}</p>
 							</div>
 							<p>{item.degree}</p>
-							<p className='item-desc'>
+							<p className="item-desc">
 								<i>{item.description}</i>
 							</p>
 							<button
@@ -317,6 +355,7 @@ function Education() {
 							>
 								Add
 							</button>
+							<br></br>
 						</div>
 					))}
 				</div>
@@ -463,6 +502,7 @@ function Experience() {
 							>
 								Add
 							</button>
+							<br></br>
 						</div>
 					))}
 				</div>
@@ -471,4 +511,4 @@ function Experience() {
 	);
 }
 
-export { GeneralInfo, Summary, Skills, Education, Experience}
+export { Themes, GeneralInfo, Summary, Skills, Education, Experience}
