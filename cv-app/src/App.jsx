@@ -2,7 +2,7 @@ import { useState, useEffect, useMemo } from "react";
 import "./index.css";
 
 function Themes() {
-	const [theme, setTheme] = useState("primary");
+	const [theme, setTheme] = useState(localStorage.getItem("theme") || "primary");
 
 	const themeColors = useMemo(() => {
 		return {
@@ -22,6 +22,7 @@ function Themes() {
 
 	const changeTheme = (newTheme) => {
 		setTheme(newTheme);
+		localStorage.setItem("theme", newTheme);
 	};
 
 	return (
@@ -41,11 +42,12 @@ function Themes() {
 
 
 function GeneralInfo() {
-	const [name, setName] = useState("Your Name");
-	const [email, setEmail] = useState("example@website.com");
-	const [phone, setPhone] = useState("Your number");
-	const [address, setAddress] = useState("1 Street, City, State, Zip");
+	const [name, setName] = useState(localStorage.getItem("name") || "Your Name");
+	const [email, setEmail] = useState(localStorage.getItem("email") || "Your Email");
+	const [phone, setPhone] = useState(localStorage.getItem("phone") || "Your Phone");
+	const [address, setAddress] = useState(localStorage.getItem("address") || "Your Address");
 	const [isEditing, setIsEditing] = useState(false);
+	const [saveTimer, setSaveTimer] = useState(null);
 
 	const handleEditClick = () => {
 		setIsEditing(true);
@@ -53,7 +55,40 @@ function GeneralInfo() {
 
 	const handleSaveClick = () => {
 		setIsEditing(false);
+
+		//save data to local storage
+		localStorage.setItem("name", name);
+		localStorage.setItem("email", email);
+		localStorage.setItem("phone", phone);
+		localStorage.setItem("address", address);
 	};
+
+	useEffect(() => {
+		if(saveTimer) {
+			clearTimeout(saveTimer);
+		}
+
+		//Set new timer to save data to local storage every 700ms
+		const newSaveTimer = setTimeout(() => {
+			//save data to local storage
+			localStorage.setItem("name", name);
+			localStorage.setItem("email", email);
+			localStorage.setItem("phone", phone);
+			localStorage.setItem("address", address);
+
+			setSaveTimer(null);
+		}, 700);
+
+		setSaveTimer(newSaveTimer);
+
+		return () => {
+			if(saveTimer) {
+				clearTimeout(saveTimer);
+			}
+		};
+	}, [name, email, phone, address ]);
+
+
 
 	return (
 		<div>
@@ -99,16 +134,43 @@ function GeneralInfo() {
 }
 
 function Summary() {
-  const [summary, setSummary] = useState('Enter Summary. This is a summary of your skills and experience. It should be 2-3 sentences long.');
+  const [summary, setSummary] = useState(localStorage.getItem("summary")||'Enter Summary. This is a summary of your skills and experience. It should be 2-3 sentences long.');
   const [isEditing, setIsEditing] = useState(false);
+  const [saveTimer, setSaveTimer] = useState(null);
 
   const handleEditClick = () => {
     setIsEditing(true);
   };
 
   const handleSaveClick = () => {
-    setIsEditing(false);
+		setIsEditing(false);
+
+		//save data to local storage
+		localStorage.setItem("summary", summary);
   };
+
+  useEffect(() => {
+		if (saveTimer) {
+			clearTimeout(saveTimer);
+		}
+
+		//Set new timer to save data to local storage every 700ms
+		const newSaveTimer = setTimeout(() => {
+			//save data to local storage
+			localStorage.setItem("summary", summary);
+
+			setSaveTimer(null);
+		}, 700);
+
+		setSaveTimer(newSaveTimer);
+
+		return () => {
+			if (saveTimer) {
+				clearTimeout(saveTimer);
+			}
+		};
+  }, [summary]);
+
 
   return (
 		<div>
@@ -139,7 +201,10 @@ function Summary() {
 }
 
 function Skills() {
-	const [skills, setSkills] = useState(["Enter Skill"]);
+	const [skills, setSkills] = useState(() => {
+		const storedSkills = localStorage.getItem("skills");
+		return storedSkills ? JSON.parse(storedSkills) : ["Enter Skill"];
+	});
 	const [isEditing, setIsEditing] = useState(false);
 	const [newSkill, setNewSkill] = useState("");
 
@@ -169,6 +234,11 @@ function Skills() {
 			setSkills([...skills, "Enter Skill"]);
 		}
 	};
+
+	//Update local storage when skills change
+	useEffect(() => {
+		localStorage.setItem("skills", JSON.stringify(skills));
+	}, [skills]);
 
 	return (
 		<div>
@@ -234,13 +304,16 @@ function Education() {
 	const initialData = [
 		{
 			school: "Enter School",
-			degree: "Enter Degree",
+			degree: "Enter Ceritificate/Degree",
 			completed: "Enter Date Completed",
 			description:
 				"Enter a brief description of what you studied and your accomplishments",
 		},
 	];
-	const [educationData, setEducationData] = useState(initialData);
+	const [educationData, setEducationData] = useState(() => {
+		const storedEducation = localStorage.getItem("education");
+		return storedEducation ? JSON.parse(storedEducation) : initialData;
+	});
 	const [isEditing, setIsEditing] = useState(false);
 
 	const handleEditClick = () => {
@@ -262,6 +335,11 @@ function Education() {
 	const handleAddClick = () => {
 		setEducationData([...educationData, initialData[0]]);
 	};
+
+	//Update local storage when education data changes
+	useEffect(() => {
+		localStorage.setItem("education", JSON.stringify(educationData));
+	}, [educationData]);
 
 	return (
 		<div>
@@ -373,7 +451,11 @@ function Experience() {
 			description: "Enter Description",
 		},
 	];
-	const [experienceData, setExperienceData] = useState(initialData);
+	const [experienceData, setExperienceData] = useState(() => {
+		const storedExperience = localStorage.getItem("experience");
+		return storedExperience ? JSON.parse(storedExperience) : initialData;
+	});
+
 	const [isEditing, setIsEditing] = useState(false);
 
 	const handleEditClick = () => {
@@ -395,6 +477,11 @@ function Experience() {
 	const handleAddClick = () => {
 		setExperienceData([...experienceData, initialData[0]]);
 	};
+
+	//Update local storage when experience data changes
+	useEffect(() => {
+		localStorage.setItem("experience", JSON.stringify(experienceData));
+	}, [experienceData]);
 
 	return (
 		<div>
@@ -520,3 +607,4 @@ function Print() {
 }
 
 export { Themes, GeneralInfo, Summary, Skills, Education, Experience, Print}
+
