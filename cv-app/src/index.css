@@ -16,7 +16,8 @@
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
 
-  
+  -webkit-print-color-adjust:exact !important;
+  print-color-adjust:exact !important;  
 }
 
 a {
@@ -233,5 +234,9 @@ li {
   background-color: var(--color-primary);
   padding: 5px 0;
   display: block;
-}
+  }
+  body{
+  -webkit-print-color-adjust:exact !important;
+  print-color-adjust:exact !important;
+  }
 }
