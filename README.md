@@ -1,7 +1,7 @@
 # CV-Maker
 
 A simple web application that provides you with an editable CV template. 
-There are a couple of themes to choose from and when you're finished, hit save to download/print. 
+There are a couple of themes to choose from and when you're finished, hit save to download/print. The data is auto-saved locally so the user can make changes at later dates.
 </br>
 </br>
 
