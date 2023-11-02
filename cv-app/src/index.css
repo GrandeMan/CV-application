@@ -210,18 +210,12 @@ li {
   font-size: 1.15em;
 }
 
-/* @media (prefers-color-scheme: light) {
-  :root {
-    color: #213547;
-    background-color: #ffffff;
+@media screen and (max-width: 768px) {
+  ul {
+    grid-template-columns: 1fr 1fr;
+    grid-template-rows: 1fr auto;
   }
-  a:hover {
-    color: #747bff;
-  }
-  button {
-    background-color: #f9f9f9;
-  }
-} */
+}
 
 @media print {
   a {
