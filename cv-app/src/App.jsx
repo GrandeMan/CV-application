@@ -42,10 +42,10 @@ function Themes() {
 
 
 function GeneralInfo() {
-	const [name, setName] = useState(localStorage.getItem("name") || "Your Name");
-	const [email, setEmail] = useState(localStorage.getItem("email") || "Your Email");
-	const [phone, setPhone] = useState(localStorage.getItem("phone") || "Your Phone");
-	const [address, setAddress] = useState(localStorage.getItem("address") || "Your Address");
+	const [name, setName] = useState(localStorage.getItem("name") || "Full Name");
+	const [email, setEmail] = useState(localStorage.getItem("email") || "Your Email Address");
+	const [phone, setPhone] = useState(localStorage.getItem("phone") || "Your Phone Number");
+	const [address, setAddress] = useState(localStorage.getItem("address") || "Your Home Address");
 	const [isEditing, setIsEditing] = useState(false);
 	const [saveTimer, setSaveTimer] = useState(null);
 
@@ -97,21 +97,25 @@ function GeneralInfo() {
 					<input
 						type="text"
 						value={name}
+						placeholder="Full Name"
 						onChange={(e) => setName(e.target.value)}
 					/>
 					<input
 						type="text"
 						value={phone}
+						placeholder="Your Phone Number"
 						onChange={(e) => setPhone(e.target.value)}
 					/>
 					<input
 						type="text"
 						value={email}
+						placeholder="Your Email Address"
 						onChange={(e) => setEmail(e.target.value)}
 					/>
 					<input
 						type="text"
 						value={address}
+						placeholder="Your Home Address"
 						onChange={(e) => setAddress(e.target.value)}
 					/>
 					<button className="save-btn" onClick={handleSaveClick}>
@@ -180,7 +184,8 @@ function Summary() {
             rows="10"
             cols="50"
             value={summary}
-						onChange={(e) => setSummary(e.target.value)}
+			placeholder="Enter Summary. This is a summary of your skills and experience. It should be 2-3 sentences long."
+			onChange={(e) => setSummary(e.target.value)}
           >
 					</textarea>
 					<button className="save-btn" onClick={handleSaveClick}>
@@ -203,10 +208,15 @@ function Summary() {
 function Skills() {
 	const [skills, setSkills] = useState(() => {
 		const storedSkills = localStorage.getItem("skills");
-		return storedSkills ? JSON.parse(storedSkills) : ["Enter Skill"];
+		const skillsArray = storedSkills ? JSON.parse(storedSkills) : [];
+
+		if(skillsArray.length === 0) {
+			skillsArray.push("Enter Skill");
+		}
+		return skillsArray;
 	});
 	const [isEditing, setIsEditing] = useState(false);
-	const [newSkill, setNewSkill] = useState("");
+	const [editedSkills, setEditedSkills] = useState(skills.slice(0, 6));
 
 	const handleEditClick = () => {
 		setIsEditing(true);
@@ -214,28 +224,30 @@ function Skills() {
 
 	const handleSaveClick = () => {
 		setIsEditing(false);
-		const updatedSkills = [...skills];
-		const skillIndex = updatedSkills.findIndex((s) => s === "Enter Skill");
-		updatedSkills[skillIndex] = newSkill || "Enter Skill";
-		setSkills(updatedSkills);
-		setNewSkill("");
+		setSkills(editedSkills);
 	};
 
-	const handleDeleteClick = (index) => {
-		if (skills.length > 1) {
-			const updatedSkills = [...skills];
+	const handleSkillChange = (index, value) => {
+		const updatedSkills = [...editedSkills];
+		updatedSkills[index] = value;
+		setEditedSkills(updatedSkills);
+	};
+
+	const handleAddSkill = () => {
+		if (editedSkills.length < 6) {
+			setEditedSkills([...editedSkills, ""]);
+		}
+	};
+
+	const handleRemoveSkill = (index) => {
+		if (editedSkills.length > 1) {
+			const updatedSkills = [...editedSkills];
 			updatedSkills.splice(index, 1);
-			setSkills(updatedSkills);
+			setEditedSkills(updatedSkills);
 		}
 	};
 
-	const handleAddClick = () => {
-		if (skills.length < 6) {
-			setSkills([...skills, "Enter Skill"]);
-		}
-	};
-
-	//Update local storage when skills change
+	// Update local storage when skills change
 	useEffect(() => {
 		localStorage.setItem("skills", JSON.stringify(skills));
 	}, [skills]);
@@ -244,61 +256,56 @@ function Skills() {
 		<div>
 			{isEditing ? (
 				<div className="is-editing">
-					<input
-						type="text"
-						value={newSkill}
-						onChange={(e) => setNewSkill(e.target.value)}
-					/>
+					<form>
+						{editedSkills.map((skill, index) => (
+							<div className="skill" key={index}>
+								<input
+									type="text"
+									value={skill}
+									placeholder="Enter Skill"
+									onChange={(e) =>
+										handleSkillChange(index, e.target.value)
+									}
+								/>
+								<button
+									type="button"
+									onClick={() => handleRemoveSkill(index)}
+									disabled={editedSkills.length === 1}
+								>
+									-
+								</button>
+								<button
+									type="button"
+									onClick={handleAddSkill}
+									disabled={editedSkills.length === 6}
+								>
+									+
+								</button>
+							</div>
+						))}
+					</form>
 					<button className="save-btn" onClick={handleSaveClick}>
-						Save
+						Save Skills
 					</button>
 				</div>
 			) : (
 				<div>
-					<h2>Skills</h2>
+					<h2>Your Skills</h2>
 					<ul className="list">
 						{skills.map((skill, index) => (
 							<div className="skill-item" key={index}>
 								<li>{skill}</li>
-								<button
-									className="edit-btn"
-									onClick={handleEditClick}
-								>
-									Edit
-								</button>
-								{skills.length > 1 ? (
-									<button
-										className="delete-btn"
-										onClick={() => handleDeleteClick(index)}
-									>
-										Delete
-									</button>
-								) : (
-									<button className="delete-btn" disabled>
-										Delete
-									</button>
-								)}
-								{skills.length < 6 ? (
-									<button
-										className="add-btn"
-										onClick={handleAddClick}
-									>
-										Add
-									</button>
-								) : (
-									<button className="add-btn" disabled>
-										Add
-									</button>
-								)}
 							</div>
 						))}
 					</ul>
+					<button className="edit-btn" onClick={handleEditClick}>
+						Edit Skills
+					</button>
 				</div>
 			)}
 		</div>
 	);
 }
-
 
 function Education() {
 	const initialData = [

@@ -10,13 +10,13 @@
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
-  background-color: #242424;
-
   font-synthesis: none;
   text-rendering: optimizeLegibility;
   -webkit-font-smoothing: antialiased;
   -moz-osx-font-smoothing: grayscale;
   -webkit-text-size-adjust: 100%;
+
+  
 }
 
 a {
@@ -56,6 +56,31 @@ h2 {
 
 .summary, .list, .education {
   max-width: 815px;
+}
+
+.skill{
+  display: flex;;
+  gap: 1em;
+  margin-bottom: 1em;
+}
+
+.skill button {
+  background-color: var(--color-primary);
+  color: white;
+  border: none;
+  border-radius: 8px;
+  padding: .5em 1em;
+  font-size: 1em;
+  font-weight: 800;
+  font-family: inherit;
+  cursor: pointer;
+  transition: background-color 0.25s;
+}
+
+.skill button:disabled {
+  background-color: #c4c4c4;
+  color: #000000;
+  cursor: not-allowed;
 }
 
 .item-head {
@@ -147,12 +172,11 @@ textarea {
 
 button {
   border-radius: 8px;
-  border: 1px solid transparent;
+  border: 2px solid transparent;
   padding: 0.6em 1.2em;
   font-size: .75em;
   font-weight: 500;
   font-family: inherit;
-  background-color: #1a1a1a;
   cursor: pointer;
   transition: border-color 0.25s;
 }
@@ -162,6 +186,14 @@ button:hover {
 button:focus,
 button:focus-visible {
   outline: 4px auto -webkit-focus-ring-color;
+}
+
+.edit-btn, 
+.delete-btn,
+.add-btn {
+  margin: .25em;
+  padding: .4em .75em;
+  box-shadow: 0 0 4px 1px var(--color-primary);
 }
 
 ul {
@@ -178,7 +210,7 @@ li {
   font-size: 1.15em;
 }
 
-@media (prefers-color-scheme: light) {
+/* @media (prefers-color-scheme: light) {
   :root {
     color: #213547;
     background-color: #ffffff;
@@ -189,7 +221,7 @@ li {
   button {
     background-color: #f9f9f9;
   }
-}
+} */
 
 @media print {
   a {
@@ -198,5 +230,14 @@ li {
   button {
     display: none;
   }
-
+  @page {
+    size: auto;
+    display: none;
+  }
+  h2 {
+  color: white;
+  background-color: var(--color-primary);
+  padding: 5px 0;
+  display: block;
+}
 }
