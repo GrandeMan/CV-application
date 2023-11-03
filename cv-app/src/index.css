@@ -191,10 +191,12 @@ button:focus-visible {
 
 .edit-btn, 
 .delete-btn,
-.add-btn {
+.add-btn,
+.save-btn
+ {
   margin: .25em;
-  padding: .4em .75em;
-  box-shadow: 0 0 4px 1px var(--color-primary);
+  padding: 0.6em 1.2em;
+  box-shadow: inset 0 0 5px 1px var(--color-primary);
 }
 
 ul {
@@ -227,10 +229,6 @@ li {
   button {
     display: none;
   }
-  @page {
-    size: auto;
-    display: none;
-  }
   h2 {
   color: white;
   background-color: var(--color-primary);
@@ -241,4 +239,9 @@ li {
   -webkit-print-color-adjust:exact !important;
   print-color-adjust:exact !important;
   }
+  @page {
+    size: A4;
+    margin: 0 0.5in;
+  }
+
 }
