@@ -155,7 +155,7 @@ textarea {
 }
 
 .theme-buttons {
-  width: 33%;
+  width: 25%;
   display: flex;
   justify-content: space-between;
   align-items: center;
@@ -246,6 +246,14 @@ li {
   ul {
     grid-template-columns: 1fr 1fr;
     grid-template-rows: 1fr auto;
+  }
+  .theme-container{
+    flex-direction: column;
+    align-items: flex-start;
+    gap: 1em;
+  }
+  body{
+    margin: 0 5px;
   }
 }
 

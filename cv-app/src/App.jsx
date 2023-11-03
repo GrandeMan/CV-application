@@ -1,5 +1,6 @@
 import { useState, useEffect, useMemo } from "react";
 import "./index.css";
+import { FaPhone } from "react-icons/fa6";
 
 function Themes() {
 	const [theme, setTheme] = useState(
@@ -179,7 +180,7 @@ function GeneralInfo() {
 			) : (
 				<div>
 					<h1>{name}</h1>
-					<p>{phone}</p>
+					<p><FaBeer /> {phone}</p>
 					<p>{email}</p>
 					<p>{address}</p>
 					<button className="edit-btn" onClick={handleEditClick}>
