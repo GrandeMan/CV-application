@@ -38,12 +38,12 @@ body {
   align-items: center;
   width: 100vw;
   height: 100%;
-  font-size: 1.125em;
+  font-size: 1em;
   overflow-x: hidden;
 }
 
 h1 {
-  font-size: 2.75em;
+  font-size: 2.5em;
   line-height: 1.1;
   color: var(--color-primary);
   margin: .5em 0;
@@ -210,6 +210,8 @@ li {
   list-style: none;
   font-size: 1.15em;
 }
+
+
 
 @media screen and (max-width: 768px) {
   ul {

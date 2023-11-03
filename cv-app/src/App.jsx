@@ -42,10 +42,21 @@ function Themes() {
 
 
 function GeneralInfo() {
-	const [name, setName] = useState(localStorage.getItem("name") || "Full Name");
-	const [email, setEmail] = useState(localStorage.getItem("email") || "Your Email Address");
-	const [phone, setPhone] = useState(localStorage.getItem("phone") || "Your Phone Number");
-	const [address, setAddress] = useState(localStorage.getItem("address") || "Your Home Address");
+	const getDefaultState = (key, placeholder) => {
+		const value = localStorage.getItem(key);
+		return value || placeholder;
+	};
+
+	const [name, setName] = useState(getDefaultState("name", "Full Name"));
+	const [email, setEmail] = useState(
+		getDefaultState("email", "Your Email Address")
+	);
+	const [phone, setPhone] = useState(
+		getDefaultState("phone", "Your Phone Number")
+	);
+	const [address, setAddress] = useState(
+		getDefaultState("address", "Your Home Address")
+	);
 	const [isEditing, setIsEditing] = useState(false);
 	const [saveTimer, setSaveTimer] = useState(null);
 
@@ -56,25 +67,43 @@ function GeneralInfo() {
 	const handleSaveClick = () => {
 		setIsEditing(false);
 
-		//save data to local storage
-		localStorage.setItem("name", name);
-		localStorage.setItem("email", email);
-		localStorage.setItem("phone", phone);
-		localStorage.setItem("address", address);
+		// Save data to local storage
+		localStorage.setItem("name", name === "Full Name" ? "" : name);
+		localStorage.setItem(
+			"email",
+			email === "Your Email Address" ? "" : email
+		);
+		localStorage.setItem(
+			"phone",
+			phone === "Your Phone Number" ? "" : phone
+		);
+		localStorage.setItem(
+			"address",
+			address === "Your Home Address" ? "" : address
+		);
 	};
 
 	useEffect(() => {
-		if(saveTimer) {
+		if (saveTimer) {
 			clearTimeout(saveTimer);
 		}
 
-		//Set new timer to save data to local storage every 700ms
+		// Set a new timer to save data to local storage every 700ms
 		const newSaveTimer = setTimeout(() => {
-			//save data to local storage
-			localStorage.setItem("name", name);
-			localStorage.setItem("email", email);
-			localStorage.setItem("phone", phone);
-			localStorage.setItem("address", address);
+			// Save data to local storage
+			localStorage.setItem("name", name === "Full Name" ? "" : name);
+			localStorage.setItem(
+				"email",
+				email === "Your Email Address" ? "" : email
+			);
+			localStorage.setItem(
+				"phone",
+				phone === "Your Phone Number" ? "" : phone
+			);
+			localStorage.setItem(
+				"address",
+				address === "Your Home Address" ? "" : address
+			);
 
 			setSaveTimer(null);
 		}, 700);
@@ -82,42 +111,37 @@ function GeneralInfo() {
 		setSaveTimer(newSaveTimer);
 
 		return () => {
-			if(saveTimer) {
+			if (saveTimer) {
 				clearTimeout(saveTimer);
 			}
 		};
-	}, [name, email, phone, address ]);
+	}, [name, email, phone, address]);
 
-
+	const renderInputField = (value, placeholder, onChange) => (
+		<input
+			type="text"
+			value={value === placeholder ? "" : value}
+			placeholder={placeholder}
+			onChange={onChange}
+		/>
+	);
 
 	return (
 		<div>
 			{isEditing ? (
-				<div className='is-editing'>
-					<input
-						type="text"
-						value={name}
-						placeholder="Full Name"
-						onChange={(e) => setName(e.target.value)}
-					/>
-					<input
-						type="text"
-						value={phone}
-						placeholder="Your Phone Number"
-						onChange={(e) => setPhone(e.target.value)}
-					/>
-					<input
-						type="text"
-						value={email}
-						placeholder="Your Email Address"
-						onChange={(e) => setEmail(e.target.value)}
-					/>
-					<input
-						type="text"
-						value={address}
-						placeholder="Your Home Address"
-						onChange={(e) => setAddress(e.target.value)}
-					/>
+				<div className="is-editing">
+					{renderInputField(name, "Full Name", (e) =>
+						setName(e.target.value)
+					)}
+					{renderInputField(phone, "Your Phone Number", (e) =>
+						setPhone(e.target.value)
+					)}
+					{renderInputField(email, "Your Email Address", (e) =>
+						setEmail(e.target.value)
+					)}
+					{renderInputField(address, "Your Home Address", (e) =>
+						setAddress(e.target.value)
+					)}
 					<button className="save-btn" onClick={handleSaveClick}>
 						Save
 					</button>
@@ -125,9 +149,9 @@ function GeneralInfo() {
 			) : (
 				<div>
 					<h1>{name}</h1>
-					<p> {phone}</p>
-					<p> {email}</p>
-					<p> {address}</p>
+					<p>{phone}</p>
+					<p>{email}</p>
+					<p>{address}</p>
 					<button className="edit-btn" onClick={handleEditClick}>
 						Edit
 					</button>
@@ -138,7 +162,12 @@ function GeneralInfo() {
 }
 
 function Summary() {
-  const [summary, setSummary] = useState(localStorage.getItem("summary")||'Enter Summary. This is a summary of your skills and experience. It should be 2-3 sentences long.');
+  const getDefaultState = (key, placeholder) => {
+		const value = localStorage.getItem(key);
+		return value || placeholder;
+  };
+
+  const [summary, setSummary] = useState(getDefaultState("summary", "Enter Summary. This is a summary of your skills and experience. It should be 2-3 sentences long."));
   const [isEditing, setIsEditing] = useState(false);
   const [saveTimer, setSaveTimer] = useState(null);
 
@@ -150,7 +179,8 @@ function Summary() {
 		setIsEditing(false);
 
 		//save data to local storage
-		localStorage.setItem("summary", summary);
+		localStorage.setItem("summary", summary === "Enter Summary. This is a summary of your skills and experience. It should be 2-3 sentences long." ? "" : summary);
+
   };
 
   useEffect(() => {
@@ -161,7 +191,7 @@ function Summary() {
 		//Set new timer to save data to local storage every 700ms
 		const newSaveTimer = setTimeout(() => {
 			//save data to local storage
-			localStorage.setItem("summary", summary);
+			localStorage.setItem("summary", summary === "Enter Summary. This is a summary of your skills and experience. It should be 2-3 sentences long." ? "" : summary);
 
 			setSaveTimer(null);
 		}, 700);
@@ -175,26 +205,32 @@ function Summary() {
 		};
   }, [summary]);
 
+  const renderInputField = (value, placeholder, onChange) => (
+		<textarea
+			rows="10"
+			cols="50"
+			value={value === placeholder ? "" : value}
+			placeholder={placeholder}
+			onChange={onChange}
+		/>
+	);
 
   return (
 		<div>
+			<h2>Professional Summary</h2>
 			{isEditing ? (
 				<div className="is-editing">
-					<textarea
-            rows="10"
-            cols="50"
-            value={summary}
-			placeholder="Enter Summary. This is a summary of your skills and experience. It should be 2-3 sentences long."
-			onChange={(e) => setSummary(e.target.value)}
-          >
-					</textarea>
+					{renderInputField(
+						summary,
+						"Enter Summary. This is a summary of your skills and experience. It should be 2-3 sentences long.",
+						(e) => setSummary(e.target.value)
+					)}
 					<button className="save-btn" onClick={handleSaveClick}>
 						Save
 					</button>
 				</div>
 			) : (
 				<div>
-					<h2>Professional Summary</h2>
 					<p className="summary">{summary}</p>
 					<button className="edit-btn" onClick={handleEditClick}>
 						Edit
@@ -210,11 +246,17 @@ function Skills() {
 		const storedSkills = localStorage.getItem("skills");
 		const skillsArray = storedSkills ? JSON.parse(storedSkills) : [];
 
-		if(skillsArray.length === 0) {
+		if (skillsArray.length === 0) {
 			skillsArray.push("Enter Skill");
 		}
 		return skillsArray;
 	});
+
+	// Function to create a placeholder for empty skills
+	const createPlaceholderSkill = () => {
+		return skills.length === 0 ? "Enter Skill" : "";
+	};
+
 	const [isEditing, setIsEditing] = useState(false);
 	const [editedSkills, setEditedSkills] = useState(skills.slice(0, 6));
 
@@ -235,7 +277,7 @@ function Skills() {
 
 	const handleAddSkill = () => {
 		if (editedSkills.length < 6) {
-			setEditedSkills([...editedSkills, ""]);
+			setEditedSkills([...editedSkills, createPlaceholderSkill()]);
 		}
 	};
 
@@ -254,6 +296,7 @@ function Skills() {
 
 	return (
 		<div>
+			<h2>Your Skills</h2>
 			{isEditing ? (
 				<div className="is-editing">
 					<form>
@@ -261,7 +304,7 @@ function Skills() {
 							<div className="skill" key={index}>
 								<input
 									type="text"
-									value={skill}
+									value={skill === "Enter Skill" ? "" : skill}
 									placeholder="Enter Skill"
 									onChange={(e) =>
 										handleSkillChange(index, e.target.value)
@@ -290,7 +333,6 @@ function Skills() {
 				</div>
 			) : (
 				<div>
-					<h2>Your Skills</h2>
 					<ul className="list">
 						{skills.map((skill, index) => (
 							<div className="skill-item" key={index}>
@@ -317,10 +359,12 @@ function Education() {
 				"Enter a brief description of what you studied and your accomplishments",
 		},
 	];
+
 	const [educationData, setEducationData] = useState(() => {
 		const storedEducation = localStorage.getItem("education");
 		return storedEducation ? JSON.parse(storedEducation) : initialData;
 	});
+
 	const [isEditing, setIsEditing] = useState(false);
 
 	const handleEditClick = () => {
@@ -343,69 +387,84 @@ function Education() {
 		setEducationData([...educationData, initialData[0]]);
 	};
 
-	//Update local storage when education data changes
+	// Update local storage when education data changes
 	useEffect(() => {
 		localStorage.setItem("education", JSON.stringify(educationData));
 	}, [educationData]);
 
+	const renderInputField = (value, placeholder, onChange) => (
+		<input
+			type="text"
+			value={value === placeholder ? "" : value}
+			placeholder={placeholder}
+			onChange={onChange}
+		/>
+	);
+
+	const renderTextArea = (value, placeholder, onChange) => (
+		<textarea
+			rows="4"
+			cols="50"
+			value={value === placeholder ? "" : value}
+			placeholder={placeholder}
+			onChange={onChange}
+		></textarea>
+	);
+
 	return (
 		<div>
+			<h2>Education</h2>
 			{isEditing ? (
 				<div>
 					{educationData.map((item, index) => (
 						<div className="is-editing" key={index}>
-							<input
-								type="text"
-								value={item.school}
-								onChange={(e) => {
+							{renderInputField(
+								item.school,
+								"Enter School",
+								(e) => {
 									const updatedData = [...educationData];
 									updatedData[index].school = e.target.value;
 									setEducationData(updatedData);
-								}}
-							/>
-							<input
-								type="text"
-								value={item.completed}
-								onChange={(e) => {
+								}
+							)}
+							{renderInputField(
+								item.completed,
+								"Enter Date Completed",
+								(e) => {
 									const updatedData = [...educationData];
 									updatedData[index].completed =
 										e.target.value;
 									setEducationData(updatedData);
-								}}
-							/>
-							<input
-								type="text"
-								value={item.degree}
-								onChange={(e) => {
+								}
+							)}
+							{renderInputField(
+								item.degree,
+								"Enter Ceritificate/Degree",
+								(e) => {
 									const updatedData = [...educationData];
 									updatedData[index].degree = e.target.value;
 									setEducationData(updatedData);
-								}}
-							/>
-							<textarea
-								type="text"
-								rows="4"
-								cols="50"
-								value={item.description}
-								onChange={(e) => {
+								}
+							)}
+							{renderTextArea(
+								item.description,
+								"Enter a brief description of what you studied and your accomplishments",
+								(e) => {
 									const updatedData = [...educationData];
 									updatedData[index].description =
 										e.target.value;
 									setEducationData(updatedData);
-								}}
-							></textarea>
-							<button
-								className="save-btn"
-								onClick={handleSaveClick}
-							>
-								Save
-							</button>
+								}
+							)}
+							<hr></hr>
 						</div>
 					))}
+					<button className="save-btn" onClick={handleSaveClick}>
+						Save
+					</button>
 				</div>
 			) : (
 				<div>
-					<h2>Education</h2>
 					{educationData.map((item, index) => (
 						<div key={index}>
 							<div className="item-head">
@@ -416,6 +475,7 @@ function Education() {
 							<p className="item-desc">
 								<i>{item.description}</i>
 							</p>
+							{index < educationData.length - 1 && <hr />}
 							<button
 								className="edit-btn"
 								onClick={handleEditClick}
@@ -440,7 +500,6 @@ function Education() {
 							>
 								Add
 							</button>
-							<br></br>
 						</div>
 					))}
 				</div>
@@ -448,6 +507,7 @@ function Education() {
 		</div>
 	);
 }
+
 function Experience() {
 	const initialData = [
 		{
@@ -458,6 +518,7 @@ function Experience() {
 			description: "Enter Description",
 		},
 	];
+
 	const [experienceData, setExperienceData] = useState(() => {
 		const storedExperience = localStorage.getItem("experience");
 		return storedExperience ? JSON.parse(storedExperience) : initialData;
@@ -485,79 +546,90 @@ function Experience() {
 		setExperienceData([...experienceData, initialData[0]]);
 	};
 
-	//Update local storage when experience data changes
+	// Update local storage when experience data changes
 	useEffect(() => {
 		localStorage.setItem("experience", JSON.stringify(experienceData));
 	}, [experienceData]);
 
+	const renderInputField = (value, placeholder, onChange) => (
+		<input
+			type="text"
+			value={value === placeholder ? "" : value}
+			placeholder={placeholder}
+			onChange={onChange}
+		/>
+	);
+
+	const renderTextArea = (value, placeholder, onChange) => (
+		<textarea
+			rows="4"
+			cols="50"
+			value={value === placeholder ? "" : value}
+			placeholder={placeholder}
+			onChange={onChange}
+		></textarea>
+	);
+
 	return (
 		<div>
+			<h2>Experience</h2>
 			{isEditing ? (
 				<div>
 					{experienceData.map((item, index) => (
 						<div className="is-editing" key={index}>
-							<input
-								type="text"
-								value={item.company}
-								onChange={(e) => {
+							{renderInputField(
+								item.company,
+								"Enter Company",
+								(e) => {
 									const updatedData = [...experienceData];
 									updatedData[index].company = e.target.value;
 									setExperienceData(updatedData);
-								}}
-							/>
-							<input
-								type="text"
-								value={item.startDate}
-								onChange={(e) => {
+								}
+							)}
+							{renderInputField(
+								item.startDate,
+								"Start Date",
+								(e) => {
 									const updatedData = [...experienceData];
 									updatedData[index].startDate =
 										e.target.value;
 									setExperienceData(updatedData);
-								}}
-							/>
-							<input
-								type="text"
-								value={item.endDate}
-								onChange={(e) => {
-									const updatedData = [...experienceData];
-									updatedData[index].endDate = e.target.value;
-									setExperienceData(updatedData);
-								}}
-							/>
-							<input
-								type="text"
-								value={item.position}
-								onChange={(e) => {
+								}
+							)}
+							{renderInputField(item.endDate, "End Date", (e) => {
+								const updatedData = [...experienceData];
+								updatedData[index].endDate = e.target.value;
+								setExperienceData(updatedData);
+							})}
+							{renderInputField(
+								item.position,
+								"Enter Position",
+								(e) => {
 									const updatedData = [...experienceData];
 									updatedData[index].position =
 										e.target.value;
 									setExperienceData(updatedData);
-								}}
-							/>
-							<textarea
-								type="text"
-								rows="4"
-								cols="50"
-								value={item.description}
-								onChange={(e) => {
+								}
+							)}
+							{renderTextArea(
+								item.description,
+								"Enter Description",
+								(e) => {
 									const updatedData = [...experienceData];
 									updatedData[index].description =
 										e.target.value;
 									setExperienceData(updatedData);
-								}}
-							></textarea>
-							<button
-								className="save-btn"
-								onClick={handleSaveClick}
-							>
-								Save
-							</button>
+								}
+							)}
+							<hr></hr>
 						</div>
 					))}
+					<button className="save-btn" onClick={handleSaveClick}>
+						Save
+					</button>
 				</div>
 			) : (
 				<div>
-					<h2>Experience</h2>
 					{experienceData.map((item, index) => (
 						<div key={index}>
 							<div className="item-head">
@@ -566,12 +638,12 @@ function Experience() {
 									{item.startDate} - {item.endDate}
 								</p>
 							</div>
-							<p>
-								<p>{item.position}</p>
-							</p>
+							<p>{item.position}</p>
 							<p className="item-desc">
 								<i>{item.description}</i>
 							</p>
+							{index < experienceData.length - 1 && <hr />}
+							{index < experienceData.length - 1 && <br />}
 							<button
 								className="edit-btn"
 								onClick={handleEditClick}
@@ -596,7 +668,6 @@ function Experience() {
 							>
 								Add
 							</button>
-							<br></br>
 						</div>
 					))}
 				</div>
