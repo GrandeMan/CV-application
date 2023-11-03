@@ -2,14 +2,25 @@ import { useState, useEffect, useMemo } from "react";
 import "./index.css";
 
 function Themes() {
-	const [theme, setTheme] = useState(localStorage.getItem("theme") || "primary");
+	const [theme, setTheme] = useState(
+		localStorage.getItem("theme") || "primary"
+	);
+	const [font, setFont] = useState(localStorage.getItem("font") || "font1"); // Initialize the selected font state
 
 	const themeColors = useMemo(() => {
 		return {
-			primary: "#535bf2",
-			green: "#00bfa5",
-			red: "#ff5252",
-			black: "#1a1a1a",
+			primary: "#1d4ed8",
+			green: "#22c55e",
+			red: "#b91c1c",
+			black: "#1f2937",
+		};
+	}, []);
+
+	const fonts = useMemo(() => {
+		return {
+			font1: "'Inter', system-ui, Avenir, sans-serif",
+			font2: "'Lora','Times New Roman', Times, system-ui, serif",
+			font3: "'Montserrat', system-ui, Avenir, sans-serif",
 		};
 	}, []);
 
@@ -18,24 +29,43 @@ function Themes() {
 			"--color-primary",
 			themeColors[theme]
 		);
-	}, [theme, themeColors]);
+		document.documentElement.style.setProperty("--font-1", fonts[font]); // Update the font based on the selected font state
+	}, [theme, themeColors, font, fonts]);
 
 	const changeTheme = (newTheme) => {
 		setTheme(newTheme);
 		localStorage.setItem("theme", newTheme);
 	};
 
+	const changeFont = (newFont) => {
+		setFont(newFont);
+		localStorage.setItem("font", newFont);
+	};
+
 	return (
-		<div className="theme-buttons">
-			{Object.keys(themeColors).map((themeName) => (
-				<button
-					key={themeName}
-					className={`theme-button theme-${themeName}`}
-					onClick={() => changeTheme(themeName)}
-					style={{ backgroundColor: themeColors[themeName] }}
-				>
-				</button>
-			))}
+		<div className="theme-container">
+			<div className="theme-buttons">
+				{Object.keys(themeColors).map((themeName) => (
+					<button
+						key={themeName}
+						className={`theme-button theme-${themeName}`}
+						onClick={() => changeTheme(themeName)}
+						style={{ backgroundColor: themeColors[themeName] }}
+					></button>
+				))}
+			</div>
+			<div className="font-buttons">
+				{Object.keys(fonts).map((fontName) => (
+					<button
+						key={fontName}
+						className={`font-button font-${fontName}`}
+						onClick={() => changeFont(fontName)} 
+						style={{ fontFamily: fonts[fontName] }}
+					>
+						<b>Aa</b>
+					</button>
+				))}
+			</div>
 		</div>
 	);
 }

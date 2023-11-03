@@ -1,12 +1,19 @@
+@import url('https://fonts.googleapis.com/css2?family=Inter:wght@400;500;800&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Lora:ital,wght@0,400;0,500;0,700;1,400;1,500;1,700&display=swap');
+@import url('https://fonts.googleapis.com/css2?family=Montserrat:ital,wght@0,400;0,500;0,800;1,400;1,500;1,800&display=swap');
+
 :root {
   --color-primary: #535bf2;
+  --font-1: 'Inter', system-ui, Avenir, sans-serif;
+  --font-2: 'Lora','Times New Roman', Times, system-ui, serif;
+  --font-3: 'Montserrat', system-ui, Avenir, sans-serif;
 
   /* position: absolute; */
   width: 100%;
   padding: 0 1rem;
-  font-family: Inter, system-ui, Avenir, Helvetica, Arial, sans-serif;
+  font-family: var(--font-1);
   line-height: 1;
-  font-weight: 400;
+  font-weight: 500;
 
   color-scheme: light dark;
   color: rgba(255, 255, 255, 0.87);
@@ -53,6 +60,10 @@ h2 {
   color: white;
   background-color: var(--color-primary);
   padding: 5px 0;
+}
+
+.summary:first-child {
+  margin-right: .5rem;
 }
 
 .summary, .list, .education {
@@ -144,19 +155,35 @@ textarea {
 }
 
 .theme-buttons {
-  width: 25%;
+  width: 33%;
   display: flex;
   justify-content: space-between;
+  align-items: center;
   gap: 1em;
-  margin-top: 1em;
 }
 
 .theme-button {
-  height: 40px;
   width: 40px;
-  border-radius: 50%;
-  border: 1px solid transparent;
+  height: 30px;
+}
 
+.theme-container{
+  display: flex;
+  justify-content: space-between;
+  align-items: center;
+  margin: .5em 0;
+}
+
+.font-buttons{
+  display: flex;
+  justify-content: space-between;
+  font-size: 1.25em;
+  gap: 1em;
+}
+
+.font-botton {
+  color: white;
+  background-color: var(--color-primary);
 }
 
 .print {
@@ -241,7 +268,12 @@ li {
   }
   @page {
     size: A4;
-    margin: 0 0.5in;
+    margin: 0.25in auto;
   }
-
+  .theme-container{
+    display: none;
+  }
+  header, footer {
+    display: none;
+  }
 }
