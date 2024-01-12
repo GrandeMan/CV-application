@@ -336,7 +336,7 @@ function Skills() {
 
 	return (
 		<div>
-			<h2>Your Skills</h2>
+			<h2>Skills</h2>
 			{isEditing ? (
 				<div className="is-editing">
 					<form>
